@@ -33,11 +33,12 @@ const fullTitle = title === SITE.name ? title : `${title} — ${SITE.name}`;
 const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: SITE.name,
+  name: SITE.personName ?? SITE.name,
   url: SITE.url,
   email: SITE.email ? `mailto:${SITE.email}` : undefined,
   sameAs: Object.values(SITE.socials).filter(Boolean),
 };
+if (person.sameAs.length === 0) delete (person as { sameAs?: string[] }).sameAs;
 ---
 
 <!doctype html>

@@ -3,7 +3,7 @@ title: "Dữ liệu chi phí SMS của bạn có thể đang sai, và ROI sai th
 description: "Một bảng trong kho dữ liệu lặng lẽ rớt mất 25 trên 31 ngày của một store. Mọi con số chi phí xây trên đó đều bị báo thiếu suốt hai tháng."
 pubDate: 2026-09-15
 tags: ["SMS", "Dữ liệu", "Mổ xẻ sự cố"]
-draft: false
+draft: true
 translationOf: "your-sms-cost-data-is-probably-wrong"
 ---
 

@@ -61,21 +61,23 @@ const copy = {
     </section>
   )}
 
-  <section class="stack" style="margin-top: var(--space-6)">
-    <h2>{t('home.latest')}</h2>
-    <EntryList
-      lang={lang}
-      empty={t('writing.empty')}
-      items={posts.map((entry) => ({
-        href: localePath(lang, `/writing/${parseEntryId(entry.id).slug}`),
-        title: entry.data.title,
-        description: entry.data.description,
-        date: entry.data.pubDate,
-        tags: entry.data.tags,
-      }))}
-    />
-    <p><a href={localePath(lang, '/writing')}>{t('home.viewAll')} →</a></p>
-  </section>
+  {posts.length > 0 && (
+    <section class="stack" style="margin-top: var(--space-6)">
+      <h2>{t('home.latest')}</h2>
+      <EntryList
+        lang={lang}
+        empty={t('writing.empty')}
+        items={posts.map((entry) => ({
+          href: localePath(lang, `/writing/${parseEntryId(entry.id).slug}`),
+          title: entry.data.title,
+          description: entry.data.description,
+          date: entry.data.pubDate,
+          tags: entry.data.tags,
+        }))}
+      />
+      <p><a href={localePath(lang, '/writing')}>{t('home.viewAll')} →</a></p>
+    </section>
+  )}
 
   <!-- Email capture slot: intentionally empty during build phase. -->
   <div class="subscribe-slot" data-slot="subscribe"></div>

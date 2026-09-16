@@ -6,7 +6,7 @@ role: "Retention and ecommerce operations lead"
 period: "TODO: 2024 — nay"
 stack: ["Klaviyo", "Postscript", "Shopify", "GA4", "Matrixify"]
 order: 1
-draft: false
+draft: true
 translationOf: "chuong-trinh-retention-da-thuong-hieu"
 ---
 

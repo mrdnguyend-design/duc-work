@@ -3,7 +3,7 @@ title: "Your SMS cost data is probably wrong, and your ROI is wrong with it"
 description: "A warehouse table quietly dropped 25 of 31 days for one store. Every cost number built on it was understated for two months before anyone checked."
 pubDate: 2026-09-15
 tags: ["SMS", "Data", "Post-mortem"]
-draft: false
+draft: true
 translationOf: "du-lieu-chi-phi-sms-cua-ban-co-the-dang-sai"
 ---
 

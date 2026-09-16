@@ -6,7 +6,7 @@ role: "Phụ trách retention và vận hành ecommerce"
 period: "TODO: 2024 — nay"
 stack: ["Klaviyo", "Postscript", "Shopify", "GA4", "Matrixify"]
 order: 1
-draft: false
+draft: true
 translationOf: "portfolio-retention-program"
 ---
 

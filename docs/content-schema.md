@@ -50,3 +50,15 @@ acceptable for a piece that exists in one language only.
 
 `npm run new-post -- "<slug>"` writes both files with the cross-links already
 correct.
+
+## Brand name vs person name
+
+`src/site.config.mjs` carries two names on purpose:
+
+- `name` — the brand shown in the header, page titles and `og:site_name`.
+  Currently `Duc @ Work`.
+- `personName` — the human name used in the schema.org `Person` block.
+  Currently `Duc`.
+
+Search engines expect a person's name in structured data, not a brand string.
+Keep them separate.

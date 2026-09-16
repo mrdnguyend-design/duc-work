@@ -150,8 +150,10 @@ conflicts with a stricter content policy.
   `Duc Nguyen` in `src/site.config.mjs`.
 - X and LinkedIn URLs — currently `TODO` placeholders; the footer omits any
   social whose value is empty.
-- The sample post and sample case study are **live on duc.work** with `TODO`
-  placeholders in them. Replace with real work or set `draft: true` and redeploy.
-- `www.duc.work` has no DNS record — decide whether to support it.
-- `contact@duc.work` must exist as a mailbox or alias in Lark Admin, otherwise
-  enquiries bounce.
+- **No published content yet.** The sample post and case study were set back to
+  `draft: true` on 2026-09-16; they remain in the repository as format
+  references. The Writing and Case studies sections render an empty state, and
+  the home page hides its writing section entirely until a post exists. Shipping
+  the first real piece is the only thing the site is now waiting on.
+- X and LinkedIn are not set. The footer omits any social whose URL is empty, so
+  nothing renders until one is added to `src/site.config.mjs`.
