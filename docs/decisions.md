@@ -107,10 +107,9 @@ needed live, so it was deployed with the credentials available.
 Anyone who edits content must also run `npm run deploy`, or the repository and
 the live site silently drift apart.
 
-**Revisit:** this should be switched to Git-connected as soon as the owner can
-spend two minutes in the dashboard — the whole point of the repository is that
-several agents can contribute, and a deploy step only one of them can perform
-undermines that. Steps are in `docs/deploy.md`.
+**Resolved the same day.** The owner authorized the GitHub connection in the
+dashboard; pushes to `main` now build and deploy automatically. Direct upload is
+retained only as a fallback for when CI is unavailable.
 
 ---
 

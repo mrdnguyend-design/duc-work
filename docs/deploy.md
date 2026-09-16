@@ -10,11 +10,14 @@
 | Zone | `duc.work` (`6c4faebbf1a06ee3e5b45946837f26f9`) |
 | Repository | https://github.com/mrdnguyend-design/duc-work |
 
-Deployment mode is **direct upload**, not Git-connected. Pushing to GitHub does
-**not** redeploy the site — someone must run `npm run deploy`. See "Switching to
-automatic deploys" below.
+Deployment is **Git-connected**: every push to `main` on
+`mrdnguyend-design/duc-work` builds and deploys automatically. Build command
+`npm run build`, output `dist`, Node pinned to 22 by `.node-version`.
 
-## Deploying
+You normally do not need to deploy by hand. `npm run deploy` remains available
+for an out-of-band push when CI is unavailable — see below.
+
+## Deploying by hand (fallback only)
 
 ```bash
 export CLOUDFLARE_API_TOKEN=...      # Pages:Edit, DNS:Edit, Zone:Read
@@ -69,18 +72,14 @@ script to decode them. Consequences:
 
 Turn it off under Scrape Shield if a plain `mailto:` is preferred.
 
-## Switching to automatic deploys
+## Build environment
 
-Connecting Pages to GitHub requires an OAuth authorization in the dashboard and
-**cannot be done with an API token**. To switch:
+`PREVIEW_FLAT`, `PUBLIC_LINK_SUFFIX`, `PREVIEW_BASE` and `PREVIEW_SITE` must stay
+**unset** on the Pages project. They exist for internal previews and would
+change the URL shape of the production build.
 
-1. Cloudflare dashboard → Workers & Pages → `duc-work` → Settings → Builds &
-   deployments → Connect to Git, authorize GitHub, pick `mrdnguyend-design/duc-work`.
-2. Build command `npm run build`, output directory `dist`, framework preset Astro.
-3. Leave `PREVIEW_FLAT`, `PUBLIC_LINK_SUFFIX`, `PREVIEW_BASE` and `PREVIEW_SITE`
-   unset — they are for internal previews only.
-
-After that every push to `main` redeploys and `npm run deploy` is no longer needed.
+Node is pinned by `.node-version`. Astro 7 requires a current Node; do not
+remove that file.
 
 ## Internal preview without a domain
 
