@@ -1,0 +1,10 @@
+# Path-only shortcuts. Cloudflare Pages serves these from the build output.
+#
+# Hostname matching (e.g. www.duc.work -> duc.work) is NOT supported here and
+# was already tried and removed - see docs/decisions.md, 2026-09-16. That needs
+# a Cloudflare Redirect Rule. A path like /gym is a different case and is the
+# documented use of this file.
+#
+# 302, not 301: a permanent redirect is cached by browsers forever, so changing
+# the destination later would mean clearing caches on every device.
+/gym   https://bot.hc.tools/agents/tham-m-u/web/health/index.html   302
