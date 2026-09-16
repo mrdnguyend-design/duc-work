@@ -75,7 +75,9 @@ signal. `localePath()` now guarantees agreement.
 - No email capture. A hidden, inert slot is reserved on the home page and in
   `global.css` (`.subscribe-slot`) so one can be added later without touching
   the layout.
-- No analytics yet. Cloudflare Web Analytics is the intended choice.
+- No analytics code in this repository. Cloudflare injects its Web Analytics
+  beacon automatically in production — traffic is already being collected
+  without a script in the source.
 - No JavaScript authored in this repository. Note that Cloudflare injects its
   own small script in production for email-address obfuscation, so the served
   pages are not strictly script-free. See `docs/deploy.md`. Do not add authored

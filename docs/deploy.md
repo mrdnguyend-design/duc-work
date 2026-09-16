@@ -72,6 +72,14 @@ script to decode them. Consequences:
 
 Turn it off under Scrape Shield if a plain `mailto:` is preferred.
 
+**Cloudflare Web Analytics is active.** The beacon
+(`static.cloudflareinsights.com/beacon.min.js`) is injected automatically; no
+analytics snippet exists in the source. Read the numbers under Web Analytics in
+the dashboard.
+
+Apart from those two injected scripts, pages served in production are
+byte-identical to a local `npm run build` — verified 2026-09-16.
+
 ## Build environment
 
 `PREVIEW_FLAT`, `PUBLIC_LINK_SUFFIX`, `PREVIEW_BASE` and `PREVIEW_SITE` must stay
