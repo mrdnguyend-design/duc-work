@@ -144,6 +144,30 @@ conflicts with a stricter content policy.
 
 ---
 
+## 2026-09-16 — www serves the site; the 301 is still outstanding
+
+**Wanted:** `www.duc.work` should redirect to `duc.work` with a 301, so one
+hostname accumulates links and ranking.
+
+**Current state:** `www.duc.work` is a Pages custom domain and *serves* the same
+pages. It works for visitors, and every page carries an absolute canonical URL
+pointing at the apex, so search engines should still consolidate. It is not a
+redirect.
+
+**What was tried and does not work:** a `_redirects` file in the repository.
+Cloudflare Pages documents domain-level redirects as unsupported there —
+hostname matching in the source field is a different platform's feature. The
+file was removed rather than left as dead weight. Do not try it again.
+
+**The real fix** is a Cloudflare Redirect Rule (dynamic redirect phase),
+matching `http.host eq "www.duc.work"`. The deploy token intentionally carries
+only Pages, DNS and Zone-read permissions, so creating it needs either a
+`Dynamic Redirect: Edit` permission added to the token, or one minute in the
+dashboard under Rules → Redirect Rules.
+
+
+---
+
 ## Open questions
 
 - English display name for the site header. Currently the placeholder
@@ -155,5 +179,6 @@ conflicts with a stricter content policy.
   references. The Writing and Case studies sections render an empty state, and
   the home page hides its writing section entirely until a post exists. Shipping
   the first real piece is the only thing the site is now waiting on.
+- `www.duc.work` serves rather than redirects — see the entry above.
 - X and LinkedIn are not set. The footer omits any social whose URL is empty, so
   nothing renders until one is added to `src/site.config.mjs`.

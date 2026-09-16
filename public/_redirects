@@ -1,6 +1,0 @@
-# Cloudflare Pages redirects. Rules are matched top to bottom.
-#
-# Send www to the apex so one canonical hostname accumulates search ranking
-# and inbound links. Cloudflare Pages matches the hostname when the source is
-# written as a full URL.
-https://www.duc.work/* https://duc.work/:splat 301
