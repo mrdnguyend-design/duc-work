@@ -76,5 +76,7 @@ signal. `localePath()` now guarantees agreement.
   `global.css` (`.subscribe-slot`) so one can be added later without touching
   the layout.
 - No analytics yet. Cloudflare Web Analytics is the intended choice.
-- No JavaScript shipped to the browser at all, currently. Keep it that way
-  unless a feature genuinely requires it.
+- No JavaScript authored in this repository. Note that Cloudflare injects its
+  own small script in production for email-address obfuscation, so the served
+  pages are not strictly script-free. See `docs/deploy.md`. Do not add authored
+  JavaScript unless a feature genuinely requires it.

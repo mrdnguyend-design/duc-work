@@ -10,7 +10,8 @@
     "check": "astro check",
     "preview:flat": "PREVIEW_FLAT=1 PUBLIC_LINK_SUFFIX=.html astro build",
     "verify": "astro build && node scripts/verify-links.mjs dist",
-    "new-post": "node scripts/new-post.mjs"
+    "new-post": "node scripts/new-post.mjs",
+    "deploy": "npm run verify && node scripts/deploy.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

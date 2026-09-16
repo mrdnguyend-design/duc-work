@@ -94,12 +94,65 @@ bilingual signal the tags exist to send.
 
 ---
 
+## 2026-09-16 — Direct upload, not Git-connected (for now)
+
+**Decided:** the Pages project `duc-work` deploys by direct upload via
+`npm run deploy`.
+
+**Why:** connecting Cloudflare Pages to GitHub requires an interactive OAuth
+authorization in the dashboard, which an API token cannot perform. The site was
+needed live, so it was deployed with the credentials available.
+
+**Consequence, and it matters:** a push to GitHub does **not** update the site.
+Anyone who edits content must also run `npm run deploy`, or the repository and
+the live site silently drift apart.
+
+**Revisit:** this should be switched to Git-connected as soon as the owner can
+spend two minutes in the dashboard — the whole point of the repository is that
+several agents can contribute, and a deploy step only one of them can perform
+undermines that. Steps are in `docs/deploy.md`.
+
+---
+
+## 2026-09-16 — Deploy through a staging directory
+
+**Decided:** `scripts/deploy.mjs` copies `dist/` outside the project before
+invoking wrangler.
+
+**Why:** `wrangler pages deploy` run inside the project root auto-detected Astro
+and rewrote the project into a server-rendered worker — adapter installed,
+`astro.config.mjs`, `package.json`, `tsconfig.json` and `.gitignore` all modified
+without a prompt. Staging into a directory with no framework project leaves
+nothing to detect.
+
+**Wider lesson, already learned twice on other systems:** a tool reporting
+success is not evidence that it did what you asked. Check the actual state
+afterwards — here, `git status` and the shape of `dist/`.
+
+---
+
+## 2026-09-16 — Cloudflare email obfuscation left enabled
+
+**Decided:** keep Scrape Shield's email obfuscation on.
+
+**Why:** `contact@duc.work` is the inbound channel for business enquiries;
+scraped-address spam is a worse outcome than the cost. The cost is that
+Cloudflare injects a small script and the rewritten `/cdn-cgi/l/email-protection`
+URLs 404 for non-JavaScript crawlers.
+
+**Revisit if:** a plain `mailto:` becomes necessary, or the injected script
+conflicts with a stricter content policy.
+
+---
+
 ## Open questions
 
 - English display name for the site header. Currently the placeholder
   `Duc Nguyen` in `src/site.config.mjs`.
 - X and LinkedIn URLs — currently `TODO` placeholders; the footer omits any
   social whose value is empty.
-- Whether the sample post and sample case study are replaced with real work or
-  set back to `draft: true` before the first real deploy. They are currently
-  visible so the preview has content.
+- The sample post and sample case study are **live on duc.work** with `TODO`
+  placeholders in them. Replace with real work or set `draft: true` and redeploy.
+- `www.duc.work` has no DNS record — decide whether to support it.
+- `contact@duc.work` must exist as a mailbox or alias in Lark Admin, otherwise
+  enquiries bounce.
