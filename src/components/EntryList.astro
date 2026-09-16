@@ -1,0 +1,40 @@
+---
+import { formatDate, type Lang } from '../i18n/ui';
+
+export interface EntryItem {
+  href: string;
+  title: string;
+  description: string;
+  date?: Date;
+  outcome?: string;
+  tags?: string[];
+}
+
+interface Props {
+  lang: Lang;
+  items: EntryItem[];
+  empty: string;
+}
+
+const { lang, items, empty } = Astro.props;
+---
+
+{items.length === 0 ? (
+  <p class="notice">{empty}</p>
+) : (
+  <ul class="entry-list">
+    {items.map((item) => (
+      <li>
+        <a class="entry" href={item.href}>
+          {item.outcome && <span class="entry__outcome">{item.outcome}</span>}
+          <span class="entry__title">{item.title}</span>
+          <span class="entry__desc">{item.description}</span>
+          {item.date && <span class="meta">{formatDate(item.date, lang)}</span>}
+          {item.tags && item.tags.length > 0 && (
+            <ul class="tags">{item.tags.map((tag) => <li>{tag}</li>)}</ul>
+          )}
+        </a>
+      </li>
+    ))}
+  </ul>
+)}

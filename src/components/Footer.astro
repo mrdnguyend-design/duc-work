@@ -1,0 +1,25 @@
+---
+import { SITE } from '../site.config.mjs';
+import { useT, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const year = new Date().getFullYear();
+
+const links = [
+  SITE.socials.x && { href: SITE.socials.x, label: 'X' },
+  SITE.socials.linkedin && { href: SITE.socials.linkedin, label: 'LinkedIn' },
+  SITE.socials.github && { href: SITE.socials.github, label: 'GitHub' },
+  SITE.email && { href: `mailto:${SITE.email}`, label: 'Email' },
+].filter(Boolean) as { href: string; label: string }[];
+---
+
+<footer class="site-foot">
+  <div class="wrap wrap--wide site-foot__inner">
+    <span>© {year} {SITE.name}. {t('footer.rights')}</span>
+    <div class="site-foot__links">
+      {links.map((l) => <a href={l.href} rel="me noopener">{l.label}</a>)}
+    </div>
+  </div>
+</footer>

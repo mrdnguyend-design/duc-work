@@ -1,0 +1,53 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { useT, localePath, parseEntryId, formatDate, type Lang } from '../../../i18n/ui';
+import { translationPath } from '../../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('posts', (e) => import.meta.env.DEV || !e.data.draft);
+  return posts.map((entry) => {
+    const { lang, slug } = parseEntryId(entry.id);
+    return { params: { lang, slug }, props: { entry } };
+  });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { entry } = Astro.props;
+const lang = Astro.params.lang as Lang;
+const t = useT(lang);
+const { Content } = await render(entry);
+---
+
+<Base
+  lang={lang}
+  type="article"
+  title={entry.data.title}
+  description={entry.data.description}
+  publishedTime={entry.data.pubDate}
+  altPath={translationPath(entry, '/writing')}
+>
+  <article class="stack">
+    <header class="stack">
+      <p class="meta">
+        {t('post.published')} {formatDate(entry.data.pubDate, lang)}
+        {entry.data.updatedDate && ` · ${t('post.updated')} ${formatDate(entry.data.updatedDate, lang)}`}
+      </p>
+      <h1>{entry.data.title}</h1>
+      <p class="lede">{entry.data.description}</p>
+      {entry.data.tags.length > 0 && (
+        <ul class="tags">{entry.data.tags.map((tag) => <li>{tag}</li>)}</ul>
+      )}
+    </header>
+
+    <div class="prose" style="margin-top: var(--space-5)">
+      <Content />
+    </div>
+  </article>
+
+  <p style="margin-top: var(--space-6)">
+    <a href={localePath(lang, '/writing')}>← {t('post.backToWriting')}</a>
+  </p>
+</Base>

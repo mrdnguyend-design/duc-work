@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { useT, localePath } from '../i18n/ui';
+const t = useT('en');
+---
+
+<Base lang="en" title={t('404.title')} description={t('404.body')}>
+  <div class="stack">
+    <h1>{t('404.title')}</h1>
+    <p class="lede">{t('404.body')}</p>
+    <div class="btn-row">
+      <a class="btn" href={localePath('en', '/writing')}>English</a>
+      <a class="btn btn--ghost" href={localePath('vi', '/writing')}>Tiếng Việt</a>
+    </div>
+  </div>
+</Base>

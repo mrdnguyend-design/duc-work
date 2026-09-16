@@ -1,0 +1,46 @@
+---
+import { SITE } from '../site.config.mjs';
+import { useT, localePath, otherLang, langNames, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Path on the *other* language for this same page, if a translation exists. */
+  altPath?: string;
+}
+
+const { lang, altPath } = Astro.props;
+const t = useT(lang);
+const other = otherLang(lang);
+const here = Astro.url.pathname.replace(/\/$/, '');
+
+const nav = [
+  { href: localePath(lang, '/writing'), label: t('nav.writing') },
+  { href: localePath(lang, '/case-studies'), label: t('nav.cases') },
+  { href: localePath(lang, '/work-with-me'), label: t('nav.work') },
+  { href: localePath(lang, '/about'), label: t('nav.about') },
+];
+
+const isCurrent = (href: string) => here === href || here.startsWith(href + '/');
+---
+
+<header class="site-head">
+  <div class="wrap wrap--wide site-head__inner">
+    <a class="brand" href={localePath(lang, '/')}>{SITE.name}</a>
+    <nav class="site-nav" aria-label="Main">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
+      <a
+        class="lang-switch"
+        href={altPath ?? localePath(other, '/')}
+        hreflang={other}
+        lang={other}
+        title={langNames[other]}
+      >
+        {t('lang.switch')}
+      </a>
+    </nav>
+  </div>
+</header>

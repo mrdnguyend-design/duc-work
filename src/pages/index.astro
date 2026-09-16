@@ -1,0 +1,5 @@
+---
+// Root redirect to the default language.
+import { localePath, DEFAULT_LANG } from '../i18n/ui';
+return Astro.redirect(localePath(DEFAULT_LANG, '/'), 302);
+---

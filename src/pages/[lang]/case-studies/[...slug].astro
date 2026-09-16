@@ -1,0 +1,55 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { useT, localePath, parseEntryId, type Lang } from '../../../i18n/ui';
+import { translationPath } from '../../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const cases = await getCollection('cases', (e) => import.meta.env.DEV || !e.data.draft);
+  return cases.map((entry) => {
+    const { lang, slug } = parseEntryId(entry.id);
+    return { params: { lang, slug }, props: { entry } };
+  });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { entry } = Astro.props;
+const lang = Astro.params.lang as Lang;
+const t = useT(lang);
+const { Content } = await render(entry);
+---
+
+<Base
+  lang={lang}
+  type="article"
+  title={entry.data.title}
+  description={entry.data.description}
+  altPath={translationPath(entry, '/case-studies')}
+>
+  <article class="stack">
+    <header class="stack">
+      <p class="eyebrow">{t('cases.title')}</p>
+      <h1>{entry.data.title}</h1>
+      <p class="lede">{entry.data.description}</p>
+    </header>
+
+    <dl class="facts" style="margin-top: var(--space-4)">
+      <div><dt>{t('cases.outcome')}</dt><dd>{entry.data.outcome}</dd></div>
+      <div><dt>{t('cases.role')}</dt><dd>{entry.data.role}</dd></div>
+      <div><dt>{t('cases.period')}</dt><dd>{entry.data.period}</dd></div>
+      {entry.data.stack.length > 0 && (
+        <div><dt>{t('cases.stack')}</dt><dd>{entry.data.stack.join(', ')}</dd></div>
+      )}
+    </dl>
+
+    <div class="prose" style="margin-top: var(--space-5)">
+      <Content />
+    </div>
+  </article>
+
+  <p style="margin-top: var(--space-6)">
+    <a href={localePath(lang, '/case-studies')}>← {t('cases.title')}</a>
+  </p>
+</Base>

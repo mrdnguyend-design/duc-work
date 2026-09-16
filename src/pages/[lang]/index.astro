@@ -1,0 +1,82 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import EntryList from '../../components/EntryList.astro';
+import { SITE } from '../../site.config.mjs';
+import { LANGS, useT, localePath, otherLang, type Lang } from '../../i18n/ui';
+import { getPosts, getCases } from '../../lib/content';
+import { parseEntryId } from '../../i18n/ui';
+
+export const getStaticPaths: GetStaticPaths = () => LANGS.map((lang) => ({ params: { lang } }));
+
+const lang = Astro.params.lang as Lang;
+const t = useT(lang);
+
+const posts = (await getPosts(lang)).slice(0, 4);
+const cases = (await getCases(lang)).slice(0, 3);
+
+const copy = {
+  en: {
+    hero: 'I run retention marketing and ecommerce operations across a portfolio of DTC brands — email, SMS, and the data underneath them.',
+    sub: 'I write about what the numbers actually say, including the parts that went wrong.',
+  },
+  vi: {
+    hero: 'Tôi phụ trách retention marketing và vận hành ecommerce cho một nhóm thương hiệu DTC — email, SMS, và phần dữ liệu bên dưới.',
+    sub: 'Tôi viết về những gì số liệu thật sự nói, kể cả những chỗ đã sai.',
+  },
+}[lang];
+---
+
+<Base
+  lang={lang}
+  wide
+  title={SITE.name}
+  description={copy.hero}
+  altPath={localePath(otherLang(lang), '/')}
+>
+  <section class="stack">
+    <p class="eyebrow">{SITE.name}</p>
+    <h1>{copy.hero}</h1>
+    <p class="lede">{copy.sub}</p>
+    <div class="btn-row">
+      <a class="btn" href={localePath(lang, '/work-with-me')}>{t('nav.work')}</a>
+      <a class="btn btn--ghost" href={localePath(lang, '/writing')}>{t('home.readMore')}</a>
+    </div>
+  </section>
+
+  {cases.length > 0 && (
+    <section class="stack" style="margin-top: var(--space-6)">
+      <h2>{t('home.selectedWork')}</h2>
+      <EntryList
+        lang={lang}
+        empty={t('cases.empty')}
+        items={cases.map((entry) => ({
+          href: localePath(lang, `/case-studies/${parseEntryId(entry.id).slug}`),
+          title: entry.data.title,
+          description: entry.data.description,
+          outcome: entry.data.outcome,
+        }))}
+      />
+      <p><a href={localePath(lang, '/case-studies')}>{t('home.viewAll')} →</a></p>
+    </section>
+  )}
+
+  <section class="stack" style="margin-top: var(--space-6)">
+    <h2>{t('home.latest')}</h2>
+    <EntryList
+      lang={lang}
+      empty={t('writing.empty')}
+      items={posts.map((entry) => ({
+        href: localePath(lang, `/writing/${parseEntryId(entry.id).slug}`),
+        title: entry.data.title,
+        description: entry.data.description,
+        date: entry.data.pubDate,
+        tags: entry.data.tags,
+      }))}
+    />
+    <p><a href={localePath(lang, '/writing')}>{t('home.viewAll')} →</a></p>
+  </section>
+
+  <!-- Email capture slot: intentionally empty during build phase. -->
+  <div class="subscribe-slot" data-slot="subscribe"></div>
+</Base>
