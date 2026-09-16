@@ -7,4 +7,8 @@
 #
 # 302, not 301: a permanent redirect is cached by browsers forever, so changing
 # the destination later would mean clearing caches on every device.
+#
+# /gym is the live app - it can log workouts and meals, so it has to reach the
+# host that holds the database. /gym-backup is a read-only copy served from this
+# site, for the day that host is unreachable.
 /gym   https://bot.hc.tools/agents/tham-m-u/web/health/index.html   302
